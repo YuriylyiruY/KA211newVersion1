@@ -5,6 +5,7 @@ import hiber.config.AppConfig;
 
 import hiber.model.Car;
 import hiber.model.User;
+import hiber.service.CrService;
 import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -17,23 +18,28 @@ public class MainApp {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = context.getBean(UserService.class);
+        CrService carService = context.getBean(CrService.class);
         try {
 
+            User user1 = new User("User1", "Lastname1", "user1@mail.ru");
 
-            Car car1 = new Car("BMV", 1);
-            Car car2 = new Car("AUDI", 2);
-            Car car3 = new Car("MB", 3);
-            Car car4 = new Car("W", 4);
+            User user2 = new User("User2", "Lastname2", "user2@mail.ru");
+            User user3 = new User("User3", "Lastname3", "user3@mail.ru");
+            User user4 = new User("User4", "Lastname4", "user4@mail.ru");
+
+            Car car1 = new Car(user1, "BMV", 1);
+            Car car2 = new Car(user2, "AUDI", 2);
+            Car car3 = new Car(user3, "MB", 3);
+            Car car4 = new Car(user4, "BMV", 1);
 
 
             userService.deleteUsers();
+            carService.deleteCars();
 
-
-            User user1 = new User("User1", "Lastname1", "user1@mail.ru", car1);
-
-            User user2 = new User("User2", "Lastname2", "user2@mail.ru", car2);
-            User user3 = new User("User3", "Lastname3", "user3@mail.ru", car3);
-            User user4 = new User("User4", "Lastname4", "user4@mail.ru", car4);
+            user1.setCar(car1);
+            user2.setCar(car2);
+            user3.setCar(car3);
+            user4.setCar(car4);
 
 
             userService.add(user1);
@@ -46,19 +52,18 @@ public class MainApp {
             for (User user : users) {
                 System.out.println("information about  user and his car = " + user.toString());
             }
-            List<Car> cars = userService.listCars();
+            List<Car> cars = carService.listCars();
             for (Car car : cars) {
-                System.out.println("Id = " + car.getIdNewCar());
-                System.out.println("Model = " + car.getModelCar());
+                System.out.println("Id = " + car.getId());
+                System.out.println("Model = " + car.getModel_car());
                 System.out.println("Series = " + car.getSeries());
             }
             String model = "BMV";
             Integer series = 1;
-            List<User> users7 = userService.findOwner(model, series);
-            if (!users7.isEmpty()) {
-                for (User user : users7) {
-                    System.out.println("information about  user with series and model = " + user.toString());
-                }
+            User users7 = userService.findOwner(model, series);
+            if (!(users7 == null)) {
+                System.out.println("information about  user with series and model = " + users7);
+
             } else {
                 System.out.println("No users found");
             }
@@ -66,7 +71,7 @@ public class MainApp {
 
         } finally {
 
-            userService.getSessionFactory().close();
+            context.close();
         }
 
     }

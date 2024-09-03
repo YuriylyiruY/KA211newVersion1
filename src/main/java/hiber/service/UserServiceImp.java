@@ -14,7 +14,11 @@ import java.util.List;
 public class UserServiceImp implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+
+    public UserServiceImp(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Transactional
     @Override
@@ -22,11 +26,6 @@ public class UserServiceImp implements UserService {
         userDao.add(user);
     }
 
-    @Transactional
-    @Override
-    public void add(Car car) {
-        userDao.add(car);
-    }
 
     @Transactional(readOnly = true)
     @Override
@@ -34,11 +33,6 @@ public class UserServiceImp implements UserService {
         return userDao.listUsers();
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<Car> listCars() {
-        return userDao.listCars();
-    }
 
     @Transactional
     @Override
@@ -46,9 +40,9 @@ public class UserServiceImp implements UserService {
         userDao.deleteUsers();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
-    public List<User> findOwner(String model, Integer series) {
+    public User findOwner(String model, Integer series) {
         return userDao.findOwner(model, series);
     }
 

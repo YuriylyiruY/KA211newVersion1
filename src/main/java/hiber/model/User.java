@@ -1,44 +1,52 @@
 package hiber.model;
 
+import com.sun.istack.NotNull;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "carowners")
+@Table(name = "car_own")
 public class User {
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_owner;
+
+    private int id;
 
     @Column(name = "name")
     private String firstName;
 
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "email")
     private String email;
 
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idcar")
+    @JoinColumn(name = "id_car")
     private Car car;
+
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, Car car) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.car = car;
+
     }
 
-    public Long getId() {
-        return id_owner;
+
+    public int getId() {
+        return id;
     }
 
-    public void setId(Long id) {
-        this.id_owner = id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -77,12 +85,12 @@ public class User {
     public String toString() {
         return "User: " +
 
-                "  id_owner = " + id_owner +
+                "  id_owner = " + id +
                 "  name = " + firstName +
                 "  lastName = " + lastName +
                 "   email = " + email +
 
-                " cars user describe = " + car.toString();
+                " cars user describe = " + car.getModel_car();
 
     }
 }

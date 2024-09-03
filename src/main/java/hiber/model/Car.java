@@ -1,35 +1,61 @@
 package hiber.model;
 
+import com.sun.istack.NotNull;
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cars")
-public class Car {
+public class Car implements Serializable {
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idcars;
+    @Column(name = "car_id")
+    private int id;
 
     @Column(name = "model")
-    private String modelCar;
+    private String model_car;
 
     @Column(name = "series")
     private Integer series;
 
-    public Car() {
-    }
+    @OneToOne(mappedBy = "car")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    User user;
 
-    public Car(String modelCar, Integer series) {
-        this.modelCar = modelCar;
+
+    public Car(User user, String modal, int series) {
+        this.user = user;
+        this.model_car = modal;
         this.series = series;
     }
 
-    public Long getIdNewCar() {
-        return idcars;
+    public Car() {
     }
 
-    public void setIdNewCar(Long idNewCar) {
-        this.idcars = idNewCar;
+    public Car(String model_car, Integer series) {
+        this.model_car = model_car;
+        this.series = series;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getModel_car() {
+        return model_car;
+    }
+
+    public void setModel_car(String model_car) {
+        this.model_car = model_car;
     }
 
     public Integer getSeries() {
@@ -40,20 +66,21 @@ public class Car {
         this.series = series;
     }
 
-    public String getModelCar() {
-        return modelCar;
+    public User getUser() {
+        return user;
     }
 
-    public void setModelCar(String modelCar) {
-        this.modelCar = modelCar;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return "Car: " +
-                "  idNewCar = " + idcars +
-                "  modelCar = " + modelCar +
-                "  series = " + series;
-
+        return "Car{" +
+                "id=" + id +
+                ", model_car='" + model_car + '\'' +
+                ", series=" + series +
+                ", user=" + user +
+                '}';
     }
 }
