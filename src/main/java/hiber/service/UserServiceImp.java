@@ -3,6 +3,7 @@ package hiber.service;
 import hiber.dao.UserDao;
 import hiber.model.Car;
 import hiber.model.User;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,5 +52,10 @@ public class UserServiceImp implements UserService {
         return userDao.findOwner(model, series);
     }
 
-    ;
+    @Transactional
+    @Override
+    public SessionFactory getSessionFactory() {
+        return userDao.getSessionFactory();
+    }
+
 }

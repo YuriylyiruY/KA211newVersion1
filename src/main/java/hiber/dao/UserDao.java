@@ -2,6 +2,7 @@ package hiber.dao;
 
 import hiber.model.Car;
 import hiber.model.User;
+import org.hibernate.SessionFactory;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface UserDao {
     void deleteUsers();
 
     List<User> findOwner(String model, Integer series);
+
+    SessionFactory getSessionFactory();
 }
