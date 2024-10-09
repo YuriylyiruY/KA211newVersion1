@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CarDaoImp implements CarDao {
 
-    @Autowired
+
     private final SessionFactory sessionFactory;
 
     public CarDaoImp(SessionFactory sessionFactory) {
