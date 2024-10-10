@@ -57,7 +57,7 @@ public class UserDaoImp implements UserDao {
     @Override
     public User findOwner(String carModel, int carSeries) {
         User user = null;
-        try (Session session=sessionFactory.openSession()) {
+        try  {
             String HQL = "from User u left join fetch u.car car  where car.model_car=:model and car.series=:series";
 
 
